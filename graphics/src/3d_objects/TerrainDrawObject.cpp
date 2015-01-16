@@ -347,6 +347,11 @@ namespace mars {
         y_off += num_y;
       }
 
+      geom->setUseDisplayList(false);
+      geom->setUseVertexBufferObjects(true);
+      normal_geom->setUseDisplayList(false);
+      normal_geom->setUseVertexBufferObjects(true);
+      
       geode->addDrawable(geom);
       geodes.push_back(geode);
 

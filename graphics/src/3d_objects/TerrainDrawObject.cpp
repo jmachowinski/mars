@@ -33,6 +33,7 @@
 #include <osg/ComputeBoundsVisitor>
 #include <osg/CullFace>
 #include <osg/Geometry>
+#include <osgUtil/Optimizer>
 
 #ifdef HAVE_OSG_VERSION_H
   #include <osg/Version>
@@ -351,6 +352,9 @@ namespace mars {
       geode->addDrawable(geom);
       geodes.push_back(geode);
 
+      osgUtil::Optimizer optimizer;
+      optimizer.optimize(geode, osgUtil::Optimizer::ALL_OPTIMIZATIONS | osgUtil::Optimizer::INDEX_MESH  | osgUtil::Optimizer::VERTEX_POSTTRANSFORM | osgUtil::Optimizer::VERTEX_PRETRANSFORM);
+      
       normal_geode = new osg::Geode;
       normal_geode->addDrawable(normal_geom.get());
       normal_geode->getOrCreateStateSet()->setMode(GL_LIGHTING,

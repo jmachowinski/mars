@@ -111,6 +111,7 @@ namespace mars {
             osg::ref_ptr<osg::Geode> geode = *it;
             
             geode->setDataVariance(osg::Object::STATIC);
+            optimizer.optimize(geode, osgUtil::Optimizer::ALL_OPTIMIZATIONS | osgUtil::Optimizer::INDEX_MESH  | osgUtil::Optimizer::VERTEX_POSTTRANSFORM | osgUtil::Optimizer::VERTEX_PRETRANSFORM);
             
             for(int i = 0; i < geode->getNumDrawables(); i++)
             {
@@ -118,7 +119,6 @@ namespace mars {
                 geode->getDrawable(i)->setUseVertexBufferObjects(true);
             }
 
-            optimizer.optimize(geode, osgUtil::Optimizer::ALL_OPTIMIZATIONS);
       }
       
       return geodes;

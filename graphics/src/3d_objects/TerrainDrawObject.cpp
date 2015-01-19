@@ -357,7 +357,7 @@ namespace mars {
       geodes.push_back(geode);
 
       osgUtil::Optimizer optimizer;
-      optimizer.optimize(geode, osgUtil::Optimizer::ALL_OPTIMIZATIONS | osgUtil::Optimizer::INDEX_MESH  | osgUtil::Optimizer::VERTEX_POSTTRANSFORM | osgUtil::Optimizer::VERTEX_PRETRANSFORM);
+      optimizer.optimize(geode, osgUtil::Optimizer::DEFAULT_OPTIMIZATIONS | osgUtil::Optimizer::INDEX_MESH);
       
       normal_geode = new osg::Geode;
       normal_geode->addDrawable(normal_geom.get());

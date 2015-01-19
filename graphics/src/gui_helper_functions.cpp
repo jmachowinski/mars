@@ -346,6 +346,20 @@ namespace mars {
       newNodeFile.fileName = fileName;
       newNodeFile.node = osgDB::readNodeFile(fileName);
       GuiHelper::nodeFiles.push_back(newNodeFile);
+      
+      newNodeFile.node->setDataVariance(osg::Object::STATIC);
+      
+      osg::ref_ptr<osg::Geode> geode = newNodeFile.node->asGeode();
+      
+      if(geode.valid())
+      {
+        for(int i = 0; i < geode->getNumDrawables(); i++)
+        {
+            geode->getDrawable(i)->setUseDisplayList(false);
+            geode->getDrawable(i)->setUseVertexBufferObjects(true);
+        }
+      }
+      
       return newNodeFile.node;
     }
 
@@ -477,6 +491,11 @@ namespace mars {
       geode->addDrawable(geometry);
       geode->setName("bobj");
 
+      geometry->setUseDisplayList(false);
+      geometry->setUseVertexBufferObjects(true);
+      
+      geode->setDataVariance(osg::Object::STATIC);
+      
       fclose(input);
       osgUtil::Optimizer optimizer;
       optimizer.optimize( geode );
@@ -581,7 +600,7 @@ namespace mars {
       textureFileStruct newTextureFile;
       newTextureFile.fileName = filename;
       newTextureFile.texture = new osg::Texture2D;
-      newTextureFile.texture->setDataVariance(osg::Object::DYNAMIC);
+      newTextureFile.texture->setDataVariance(osg::Object::STATIC);
       newTextureFile.texture->setWrap(osg::Texture::WRAP_S, osg::Texture::REPEAT);
       newTextureFile.texture->setWrap(osg::Texture::WRAP_T, osg::Texture::REPEAT);
 

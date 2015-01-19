@@ -71,6 +71,17 @@ namespace mars {
       shapeAxis2 = new osg::ShapeDrawable(new osg::Cylinder(
                                                             osg::Vec3(0,0,0), 0.03, 0.4), hints.get());
 
+      
+      //for VBOs
+      shapeConnector1->setUseDisplayList(false);
+      shapeConnector1->setUseVertexBufferObjects(true);
+      shapeConnector2->setUseDisplayList(false);
+      shapeConnector2->setUseVertexBufferObjects(true);
+      shapeAxis1->setUseDisplayList(false);
+      shapeAxis1->setUseVertexBufferObjects(true);
+      shapeAxis2->setUseDisplayList(false);
+      shapeAxis2->setUseVertexBufferObjects(true);
+
       // set colors
       shapeConnector1->setColor(osg::Vec4(1.0f, 0.0f, 0.0f, 1.0f));
       shapeConnector2->setColor(osg::Vec4(1.0f, 0.0f, 0.0f, 1.0f));
@@ -114,7 +125,9 @@ namespace mars {
       addChild(transformConnector2.get());
       addChild(transformAxis1.get());
       addChild(transformAxis2.get());
+      
+      setDataVariance(STATIC);
     }
-
+    
   } // end of namespace graphics 
 } // end of namespace mars

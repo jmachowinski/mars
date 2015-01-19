@@ -33,6 +33,7 @@
 
 #include <iostream>
 #include <cstdio>
+#include <osgUtil/Optimizer>
 
 namespace mars {
   namespace graphics {
@@ -103,15 +104,21 @@ namespace mars {
         }
       }
       
+      osgUtil::Optimizer optimizer;
+      
       for(std::list<osg::ref_ptr<osg::Geode> >::iterator it = geodes.begin(); it != geodes.end(); it++)
       {
             osg::ref_ptr<osg::Geode> geode = *it;
+            
+            geode->setDataVariance(osg::Object::STATIC);
             
             for(int i = 0; i < geode->getNumDrawables(); i++)
             {
                 geode->getDrawable(i)->setUseDisplayList(false);
                 geode->getDrawable(i)->setUseVertexBufferObjects(true);
             }
+
+            optimizer.optimize(geode, osgUtil::Optimizer::ALL_OPTIMIZATIONS);
       }
       
       return geodes;

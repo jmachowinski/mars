@@ -346,17 +346,20 @@ namespace mars {
       newNodeFile.fileName = fileName;
       newNodeFile.node = osgDB::readNodeFile(fileName);
       GuiHelper::nodeFiles.push_back(newNodeFile);
-      
-      newNodeFile.node->setDataVariance(osg::Object::STATIC);
-      
-      osg::ref_ptr<osg::Geode> geode = newNodeFile.node->asGeode();
-      
-      if(geode.valid())
+
+      if(newNodeFile.node)
       {
-        for(int i = 0; i < geode->getNumDrawables(); i++)
+        newNodeFile.node->setDataVariance(osg::Object::STATIC);
+        
+        osg::ref_ptr<osg::Geode> geode = newNodeFile.node->asGeode();
+        
+        if(geode.valid())
         {
-            geode->getDrawable(i)->setUseDisplayList(false);
-            geode->getDrawable(i)->setUseVertexBufferObjects(true);
+            for(int i = 0; i < geode->getNumDrawables(); i++)
+            {
+                geode->getDrawable(i)->setUseDisplayList(false);
+                geode->getDrawable(i)->setUseVertexBufferObjects(true);
+            }
         }
       }
       

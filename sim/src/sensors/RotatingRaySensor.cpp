@@ -250,7 +250,7 @@ namespace mars {
 
         // If min/max are exceeded distance will be ignored.
         for(int l=0; l<config.lasers; ++l, ++i){
-          if (data[i] >= config.minDistance && data[i] <= config.maxDistance) {
+          if (data[i] >= config.minDistance && data[i] < config.maxDistance) {
             // Calculates the ray/vector within the sensor frame.
             local_ray = orientation_offset * directions[i] * data[i];
             // Gathers pointcloud in the world frame to prevent/reduce movement distortion.

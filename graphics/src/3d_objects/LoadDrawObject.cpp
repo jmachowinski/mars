@@ -33,6 +33,7 @@
 
 #include <iostream>
 #include <cstdio>
+#include <osgUtil/Optimizer>
 
 namespace mars {
   namespace graphics {
@@ -124,13 +125,19 @@ namespace mars {
         std::cerr << "Failed to load object '" << objname
                   << "' from file '" << filename << "'" << endl;
       }
-      else {
-        std::list< osg::ref_ptr< osg::Geode > >::iterator it=geodes.begin();
-        for(;it!=geodes.end(); ++it) {
-          for(unsigned int i=0; i<(*it)->getNumDrawables(); ++i) {
-            (*it)->getDrawable(i)->setUseDisplayList(false);
-            (*it)->getDrawable(i)->setUseVertexBufferObjects(true);
-          }
+
+      osgUtil::Optimizer optimizer;
+
+      std::list< osg::ref_ptr< osg::Geode > >::iterator it=geodes.begin();
+      for(;it!=geodes.end(); ++it) {
+        osg::ref_ptr<osg::Geode> geode = *it;
+
+        geode->setDataVariance(osg::Object::STATIC);
+        optimizer.optimize(geode, osgUtil::Optimizer::ALL_OPTIMIZATIONS | osgUtil::Optimizer::INDEX_MESH  | osgUtil::Optimizer::VERTEX_POSTTRANSFORM | osgUtil::Optimizer::VERTEX_PRETRANSFORM);
+
+        for(unsigned int i=0; i<(*it)->getNumDrawables(); ++i) {
+          (*it)->getDrawable(i)->setUseDisplayList(false);
+          (*it)->getDrawable(i)->setUseVertexBufferObjects(true);
         }
       }
 
